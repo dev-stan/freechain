@@ -1,34 +1,12 @@
 import time
-from flask import Flask, request
-import requests
-
-
+import Block
 from hashlib import sha256
-import json
 
 {   
     "author": "author_name",
     "timestamp": "transaction_time", 
     "data": "transaction_data"
 }
-
-class Block:
-    def __init__(self, index, transactions, timestamp, previous_hash, nonce=0):
-
-        # Register variables
-        self.index = index
-        self.transactions = transactions
-        self.timestamp = timestamp
-        self.previous_hash = previous_hash
-        self.nonce = nonce
-    
-    def compute_hash(self):
-        
-        # Read json
-        block_string = json.dumps(self.__dict__, sort_keys=True)
-        # Hash data
-        return sha256(block_string.encode()).hexdigest()
-
 
 class BlockChain:
 
@@ -40,7 +18,7 @@ class BlockChain:
 
     # Create block and add to chain
     def create_genesis_block(self):
-        genesis_block = Block(0, [], time.time(), "0")
+        genesis_block = Block.Block(0, [], time.time(), "0")
         genesis_block.hash = genesis_block.compute_hash() # don't know why this is needed
         self.chain.append(genesis_block) # Add block to chain
 
@@ -73,7 +51,7 @@ class BlockChain:
         if not self.unconfirmed_transactions:
             return False
         last_block = self.chain[-1]
-        new_block = Block(index=last_block.index + 1,
+        new_block = Block.Block(index=last_block.index + 1,
                           transactions=self.unconfirmed_transactions,
                           timestamp=time.time(),
                           previous_hash=last_block.hash)
@@ -86,20 +64,4 @@ class BlockChain:
     def last_block(self):
         return self.chain[-1]
 
-
-class app:
-    app = Flask(__name__)
-
-    blockchain = BlockChain()
-
-    @app.route('/chain', methods=['GET'])
-    def get_chain():
-        chain_data = []
-            
-        for block in BlockChain().chain:
-            chain_data.append(block.__dict__)
-        return json.dumps({"length": len(chain_data),
-                        "chain": chain_data})
-
-    app.run(debug=True, port=5000)
 
