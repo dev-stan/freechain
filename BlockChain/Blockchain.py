@@ -15,14 +15,12 @@ import json
 class Block:
     def __init__(self, index, transactions, timestamp, previous_hash, nonce=0):
 
-
         # Register variables
         self.index = index
         self.transactions = transactions
         self.timestamp = timestamp
         self.previous_hash = previous_hash
         self.nonce = nonce
-
     
     def compute_hash(self):
         
@@ -88,6 +86,7 @@ class BlockChain:
     def last_block(self):
         return self.chain[-1]
 
+
 class app:
     app = Flask(__name__)
 
@@ -103,11 +102,4 @@ class app:
                         "chain": chain_data})
 
     app.run(debug=True, port=5000)
-
-    print(
-
-    )
-
-    # say hello to the world
-    # print("Hello, World!")
 
