@@ -46,7 +46,7 @@ class BlockChain:
         genesis_block.hash = genesis_block.compute_hash() # don't know why this is needed
         self.chain.append(genesis_block) # Add block to chain
 
-    difficulty = 100
+    difficulty = 2
     def proof_of_work(self, block): # Verify if block is valid
         block.nonce = 0 # Amount of zero bits when it's hashed
         computed_hash = block.compute_hash()
