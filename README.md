@@ -1,4 +1,6 @@
-
+## Free chain, explaining block chain technology
+**To-do:**
+- Build as Django app
 
 ## Building a block
 
